@@ -41,7 +41,7 @@ const GptSearchBar = () => {
         query +
         ". Only give 5 movie names, comma separated.";
 
-      const response = await fetch("/gpt", {
+      const response = await fetch("http://localhost:5000/gpt", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
