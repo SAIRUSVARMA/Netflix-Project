@@ -9,7 +9,6 @@ const GptSearchBar = () => {
   const langKey = useSelector((store) => store.config.lang);
   const searchText = useRef(null);
 
-  // ✅ loading state
   const [loading, setLoading] = useState(false);
 
   // 🎬 Search movie in TMDB
@@ -26,12 +25,12 @@ const GptSearchBar = () => {
 
   // 🔥 GPT SEARCH HANDLER
   const handleGptSearchClick = async () => {
-    setLoading(true); // ✅ start loading
+    setLoading(true);
 
     const query = searchText.current.value;
 
     if (!query) {
-      setLoading(false); // ✅ stop if empty
+      setLoading(false);
       return;
     }
 
@@ -41,7 +40,11 @@ const GptSearchBar = () => {
         query +
         ". Only give 5 movie names, comma separated.";
 
-      const response = await fetch("http://localhost:5000/gpt", {
+      // ✅ KEY FIX
+      const BASE_URL =
+        window.location.hostname === "localhost" ? "http://localhost:5000" : "";
+
+      const response = await fetch(`${BASE_URL}/gpt`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -68,10 +71,10 @@ const GptSearchBar = () => {
         }),
       );
 
-      setLoading(false); // ✅ stop after success
+      setLoading(false);
     } catch (error) {
       console.error("GPT Search Error:", error);
-      setLoading(false); // ✅ stop on error
+      setLoading(false);
     }
   };
 
